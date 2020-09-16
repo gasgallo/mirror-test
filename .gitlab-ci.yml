@@ -1,0 +1,20 @@
+image: python:latest
+
+before_script:
+  - python --version
+  - pip install -r requirements.txt
+
+stages:
+  - do_nothing
+  - lint
+
+nothing:
+  stage: do_nothing
+  script:
+    - echo "I'm useless"
+
+flake8:
+  stage: lint
+  script:
+  - flake8 --max-line-length=120 *.py
+
