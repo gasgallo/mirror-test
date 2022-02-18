@@ -20,7 +20,7 @@ mirror-check:
     - git checkout develop
     - git remote add upstream https://github.com/gasgallo/mirror-test.git
     - git pull upstream develop
-    - git push
+    - git push origin HEAD
 
 flake8:
   stage: lint
