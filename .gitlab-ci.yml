@@ -20,6 +20,7 @@ mirror-check:
     - git checkout develop
     - git remote add upstream https://github.com/gasgallo/mirror-test.git
     - git pull upstream develop
+    - git remote rm origin && git remote add origin git@gitlab.com:rgall/mr-playground.git
     - git push origin HEAD
 
 flake8:
