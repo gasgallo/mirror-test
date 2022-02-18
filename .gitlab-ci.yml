@@ -5,13 +5,22 @@ before_script:
   - pip install -r requirements.txt
 
 stages:
-  - do_nothing
+  - sync
   - lint
 
-nothing:
-  stage: do_nothing
+mirror-check:
+  stage: sync
   script:
-    - echo "I'm useless"
+    - eval `ssh-agent -s`
+    - echo "${SSH_PRIVATE_KEY}" | tr -d '\r' | ssh-add - > /dev/null
+    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+    - git config --global user.name  "Riccardo"
+    - git config --global user.email "rgall@sertiscorp.com"
+    - git checkout develop
+    - git remote add upstream https://github.com/gasgallo/mirror-test.git
+    - git pull upstream develop
+    - git push
 
 flake8:
   stage: lint
